@@ -73,15 +73,19 @@ class buoyancyModel
         //- Boussinesq density field
         volScalarField rhok_;
 
-        //- Gravioty potential field
+        //- Gravity potential field
         volScalarField gh_;
         surfaceScalarField ghf_;
 
         //- Background pressure field
         volScalarField pBackground_;
 
-        //- Buoyancy term
-        surfaceScalarField buoyancyTerm_;
+        //- Buoyancy term: utilized in the momentum predictor as
+            // staggered form: fvc::reconstruct(buoyancyTerm()) * mesh.magSf())
+            surfaceScalarField buoyancyTerm_;
+
+            // collocated form: buoyancyTermVol()
+            volVectorField buoyancyTermVol_;
 
         //- Definition of the background hydrostatic pressure
         word backgroundPressureType_;
@@ -110,6 +114,7 @@ public:
 
         //- Update buoyancy term
         void updateBuoyancyTerm();
+        void updateBuoyancyTermVol();
 
         //- Update background pressure
         void updateBackgroundPressure();
@@ -117,7 +122,7 @@ public:
         //- Update density field 
         void updateDensityField();
 
-        //- Return bakcground pressure
+        //- Return background pressure
         volScalarField& backgroundPressure()
         {
             return pBackground_;
@@ -129,7 +134,10 @@ public:
             return buoyancyTerm_;
         }
 
-
+        volVectorField& buoyancyTermVol()
+        {
+            return buoyancyTermVol_;
+        }
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -38,9 +38,8 @@ namespace Foam
 
 void Foam::buoyancyModel::updateBuoyancyTerm()
 {
-    // Compute the buoyancy term, depending on the definition of
+    // Compute the staggered buoyancy term, depending on definition of 
     // the background pressure
-
     if (backgroundPressureType_ == "noSplit")
     {
         buoyancyTerm_ = ((g_ & mesh_.Sf())/mesh_.magSf()) * fvc::interpolate(rhok_);
@@ -52,6 +51,25 @@ void Foam::buoyancyModel::updateBuoyancyTerm()
     else if (backgroundPressureType_ == "rhokSplit")
     {
         buoyancyTerm_ = -ghf_*fvc::snGrad(rhok_);
+    }
+}
+
+void Foam::buoyancyModel::updateBuoyancyTermVol()
+{
+    // Compute the collocated buoyancy term, depending on definition of
+    // the background pressure
+
+    if (backgroundPressureType_ == "noSplit")
+    {
+        buoyancyTermVol_ = (g_ * rhok_);
+    }
+    else if (backgroundPressureType_ == "rho0Split")
+    {
+        buoyancyTermVol_ = (g_ * (rhok_ - 1.0));
+    }
+    else if (backgroundPressureType_ == "rhokSplit")
+    {
+        buoyancyTermVol_ = -(gh_* fvc::grad(rhok_));
     }
 }
 
@@ -111,7 +129,7 @@ Foam::buoyancyModel::buoyancyModel
     ),
 
     // Initialize the gravitational acceleration field
-  //g_(T.db().lookupObject<uniformDimensionedVectorField>("g")),
+    //g_(T.db().lookupObject<uniformDimensionedVectorField>("g")),
 
     // Initialize the Boussinesq density field
     rhok_
@@ -129,11 +147,13 @@ Foam::buoyancyModel::buoyancyModel
     gh_("gh", g_ & (mesh_.C() - hRef)),
     ghf_("ghf", g_ & (mesh_.Cf() - hRef)),
 
+    // Initialized with backgroundPressureType rhokSplit 
     // Initialize background pressure
     pBackground_("pBackground", rhok_*gh_),
 
-    // Initialize the buoyancy term
-    buoyancyTerm_("buoyancyTerm", -ghf_ * fvc::snGrad(rhok_))
+    // Initialize the buoyancy term 
+    buoyancyTerm_("buoyancyTerm", -ghf_ * fvc::snGrad(rhok_)),
+    buoyancyTermVol_("buoyancyTermVol", -gh_ * fvc::grad(rhok_))
 
 
 {
@@ -172,7 +192,8 @@ Foam::buoyancyModel::buoyancyModel
     }
     Info << "Defining background hydrostatic pressure to be " << backgroundOutput << endl;
 
-
+    // Update background pressure depending on the backgroundPressureType
+    this->updateBackgroundPressure();
 }
 
 
