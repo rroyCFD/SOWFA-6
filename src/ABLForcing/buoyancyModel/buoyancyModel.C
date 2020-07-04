@@ -73,7 +73,7 @@ void Foam::buoyancyModel::updateBuoyancyTermVol()
     }
 }
 
-void Foam::buoyancyModel::updateBackgroundPressure()
+/*void Foam::buoyancyModel::updateBackgroundPressure()
 {
     if (backgroundPressureType_ == "noSplit")
     {
@@ -87,6 +87,43 @@ void Foam::buoyancyModel::updateBackgroundPressure()
     {
         pBackground_ = rhok_ * gh_;
     }
+}*/
+
+volScalarField Foam::buoyancyModel::backgroundPressure()
+{
+    if (backgroundPressureType_ == "rho0Split")
+    {
+        return gh_;
+    }
+    else
+    {
+        tmp<volScalarField> tpBackground_
+        (
+            new volScalarField
+            (
+                IOobject
+                (
+                    "pBackground",
+                    runTime_.timeName(),
+                    mesh_
+                ),
+                mesh_,
+                dimensionedScalar("", gh_.dimensions(), 0.0)
+            )
+        );
+        volScalarField& pBackground_ = tpBackground_.ref();
+
+        if (backgroundPressureType_ == "noSplit")
+        {
+            return pBackground_;
+        }
+
+        else if (backgroundPressureType_ == "rhokSplit")
+        {
+            pBackground_ = rhok_ * gh_;
+            return pBackground_;
+        }  
+    } 
 }
 
 void Foam::buoyancyModel::updateDensityField()
@@ -149,7 +186,7 @@ Foam::buoyancyModel::buoyancyModel
 
     // Initialized with backgroundPressureType rhokSplit 
     // Initialize background pressure
-    pBackground_("pBackground", rhok_*gh_),
+    // pBackground_("pBackground", rhok_*gh_),
 
     // Initialize the buoyancy term 
     buoyancyTerm_("buoyancyTerm", -ghf_ * fvc::snGrad(rhok_)),
@@ -193,7 +230,7 @@ Foam::buoyancyModel::buoyancyModel
     Info << "Defining background hydrostatic pressure to be " << backgroundOutput << endl;
 
     // Update background pressure depending on the backgroundPressureType
-    this->updateBackgroundPressure();
+    // this->updateBackgroundPressure();
 }
 
 

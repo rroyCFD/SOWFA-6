@@ -1,11 +1,12 @@
 // Compute the full pressure and adjust the pressure level.
-Boussinesq.updateBackgroundPressure();
+// Boussinesq.updateBackgroundPressure();
 p = p_rgh + Boussinesq.backgroundPressure();
 
 if (p_rghNeedRef)
 {
-    Info<< "p_rgh[pRefCell] (before adjustment): " 
-    	<< getRefCellValue(p_rgh, pRefCell) << endl;
+
+	Info<< "p_rgh[pRefCell] (before adjustment): " 
+		<< getRefCellValue(p_rgh, pRefCell) << endl;
     
     dimensionedScalar pAdjust(
     	"pAdjust",

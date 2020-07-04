@@ -77,8 +77,8 @@ class buoyancyModel
         volScalarField gh_;
         surfaceScalarField ghf_;
 
-        //- Background pressure field
-        volScalarField pBackground_;
+        // //- Background pressure field
+        // volScalarField pBackground_;
 
         //- Buoyancy term: utilized in the momentum predictor as
             // staggered form: fvc::reconstruct(buoyancyTerm()) * mesh.magSf())
@@ -116,17 +116,19 @@ public:
         void updateBuoyancyTerm();
         void updateBuoyancyTermVol();
 
-        //- Update background pressure
-        void updateBackgroundPressure();
+        // //- Update background pressure
+        // void updateBackgroundPressure();
 
         //- Update density field 
         void updateDensityField();
 
         //- Return background pressure
-        volScalarField& backgroundPressure()
-        {
-            return pBackground_;
-        }
+        // volScalarField& backgroundPressure();
+        // {
+        //     return pBackground_;
+        // }
+
+        volScalarField backgroundPressure();
 
         //- Return buoyancy term
         surfaceScalarField& buoyancyTerm()
