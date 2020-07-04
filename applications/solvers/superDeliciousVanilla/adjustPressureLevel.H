@@ -4,12 +4,17 @@ p = p_rgh + Boussinesq.backgroundPressure();
 
 if (p_rghNeedRef)
 {
-    p += dimensionedScalar
-    (
-        "p",
+    Info<< "p_rgh[pRefCell] (before adjustment): " 
+    	<< getRefCellValue(p_rgh, pRefCell) << endl;
+    
+    dimensionedScalar pAdjust(
+    	"pAdjust",
         p.dimensions(),
-        pRefValue - getRefCellValue(p, pRefCell)
-    );
+        pRefValue - getRefCellValue(p, pRefCell));
 
-    p_rgh = p - Boussinesq.backgroundPressure();
+    p     += pAdjust;
+    p_rgh += pAdjust;
+
+    Info<< "p_rgh[pRefCell] (after  adjustment): " 
+    	<< getRefCellValue(p_rgh, pRefCell) << endl;
 }
