@@ -48,6 +48,7 @@ Description
 #include "fvOptions.H"
 #include "pimpleControl.H"
 #include "ABL.H"
+#include "defineBlendingFunction.H" // for divergence scheme blending
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
