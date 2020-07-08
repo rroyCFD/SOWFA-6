@@ -1,17 +1,5 @@
 #!/bin/bash
 
-# # Look at the version number of OpenFOAM to see if it is supported with this version of SOWFA.
-# version=${WM_PROJECT_VERSION:0:1}
-# variant=${WM_PROJECT_VERSION:2:1}
-
-# if [ $version -le 2 ] || ([ $version -eq 2 ] && [ $variant -le 4 ])
-# then
-#    echo "Building with OpenFOAM-"$WM_PROJECT_VERSION
-# elif [ $version -gt 2 ] || ([ $version -eq 2 ] && [ $variant -gt 4 ])
-# then
-#    echo "WARNING: Building with a version of OpenFOAM greater than 2.4.x, which is unsupported.  This will not compile!!!"
-# fi
-
 source ./.bash_profile
 echo $SOWFA_DIR
 
@@ -41,7 +29,7 @@ cd $SOWFA_SRC
 # # then
 # #     echo "OPENFAST_DIR is not set. Not compiling OpenFAST interface."
 # # else
-# #     if [ -d ${OPENFAST_DIR} ] 
+# #     if [ -d ${OPENFAST_DIR} ]
 # #     then
 # # 	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Attempting to compile OpenFAST interface."
 # # 	cd src/turbineModels/turbineModelsOpenFAST
@@ -49,7 +37,7 @@ cd $SOWFA_SRC
 # # 	cd ../../../
 # #     else
 # # 	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Directory doesn't exist or I can't access it. Skipping compilation of OpenFAST interface."
-# #     fi	
+# #     fi
 # # fi
 
 # Custom mesh Tools
@@ -106,102 +94,13 @@ cd utilities/writeCellCenters
 wmake
 cd $SOWFA_APP
 
-
 cd solvers/superDeliciousVanilla
 wmake
 cd $SOWFA_APP
 
-# # The atmospheric LES solver for precursors.
-# cd applications/solvers/incompressible/windEnergy/ABLSolver
+# cd solvers/superDeliciousVanilla.turbine
 # wmake
-# cd ../../../../../
-
-
-# # The atmospheric LES solver for terrain cases.
-# cd applications/solvers/incompressible/windEnergy/ABLTerrainSolver
-# wmake
-# cd ../../../../../
-
-
-# # # The wind plant solver with the standard actuator line.
-# # cd applications/solvers/incompressible/windEnergy/windPlantSolver.ALM
-# # wmake
-# # cd ../../../../../
-
-
-# # # The wind plant solver with the advanced actuator line.
-# # cd applications/solvers/incompressible/windEnergy/windPlantSolver.ALMAdvanced
-# # wmake
-# # cd ../../../../../
-
-
-# # if [ -z ${OPENFAST_DIR+x} ]
-# # then
-# #     echo "OPENFAST_DIR is not set. Not compiling OpenFAST solver."
-# # else
-# #     if [ -d ${OPENFAST_DIR} ] 
-# #     then
-# # 	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Attempting to compile OpenFAST windPlant solver."
-# #         # The wind plant solver with the OpenFAST coupled advanced actuator line.
-# # 	cd applications/solvers/incompressible/windEnergy/windPlantSolver.ALMAdvancedOpenFAST
-# # 	wmake
-# # 	cd ../../../../../
-# #     else
-# # 	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Directory doesn't exist or I can't access it. Skipping compilation of OpenFAST solver."
-# #     fi	
-# # fi
-
-# # # The wind plant solver with the actuator disk.
-# # cd applications/solvers/incompressible/windEnergy/windPlantSolver.ADM
-# # wmake
-# # cd ../../../../../
-
-
-# # # The basic non-buoyant solver with the standard actuator line.
-# # cd applications/solvers/incompressible/windEnergy/pisoFoamTurbine.ALM
-# # wmake
-# # cd ../../../../../
-
-
-# # # The basic non-buoyant solver with the advanced actuator line.
-# # cd applications/solvers/incompressible/windEnergy/pisoFoamTurbine.ALMAdvanced
-# # wmake
-# # cd ../../../../../
-
-
-# # if [ -z ${OPENFAST_DIR+x} ]
-# # then
-# #     echo "OPENFAST_DIR is not set. Not compiling OpenFAST solver."
-# # else
-# #     if [ -d ${OPENFAST_DIR} ] 
-# #     then
-# # 	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Attempting to compile OpenFAST pisoFoam solver."
-# #         # The basic non-buoyant solver with the OpenFAST coupled advanced actuator line.
-# # 	cd applications/solvers/incompressible/windEnergy/pisoFoamTurbine.ALMAdvancedOpenFAST
-# # 	wmake
-# # 	cd ../../../../../
-# #     else
-# # 	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Directory doesn't exist or I can't access it. Skipping compilation of OpenFAST solver."
-# #     fi	
-# # fi
-
-
-# # # The basic non-buoyant solver with the actuator disk.
-# # cd applications/solvers/incompressible/windEnergy/pisoFoamTurbine.ADM
-# # wmake
-# # cd ../../../../../
-
-
-# # # A simple solver shell meant for testing wind turbine models.
-# # cd applications/solvers/incompressible/windEnergy/turbineTestHarness.ALM
-# # wmake
-# # cd ../../../../../
-
-
-# # # A simple solver shell meant for testing wind turbine models.
-# # cd applications/solvers/incompressible/windEnergy/turbineTestHarness.ALMAdvanced
-# # wmake
-# # cd ../../../../../
+# cd $SOWFA_APP
 
 
 cd $SOWFA_DIR
