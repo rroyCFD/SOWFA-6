@@ -264,17 +264,17 @@ void kEqnABL<BasicTurbulenceModel>::correct()
     solve(kEqnABL);
 
     fvOptions.correct(k_);
- 
+
     // Bound the subgrid-scale turbulent kinetic energy to have a minimum
     bound(k_, this->kMin_);
 
     // Compute the eddy viscosity.
     correctNut();
 
-    // Update the subgrid-scale thermal diffusivity
-    volScalarField& kappat_ = const_cast<volScalarField&>(U().db().lookupObject<volScalarField>(this->kappatName_));
-    kappat_ = nut/Prt;
-    kappat_.correctBoundaryConditions();
+    // // Update the subgrid-scale thermal diffusivity
+    // volScalarField& kappat_ = const_cast<volScalarField&>(U().db().lookupObject<volScalarField>(this->kappatName_));
+    // kappat_ = nut/Prt;
+    // kappat_.correctBoundaryConditions();
 }
 
 
