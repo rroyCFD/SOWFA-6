@@ -400,7 +400,7 @@ if (updateBoundaryFields)
     Info << "Updating boundaries..." << endl;
     U.correctBoundaryConditions();
     T.correctBoundaryConditions();
-    p_rgh.correctBoundaryConditions();
+    // p_rgh.correctBoundaryConditions();
 }
 
 
@@ -408,11 +408,11 @@ if (updateBoundaryFields)
 Info<< "Writing field U" << endl;
 U.write();
 Info<< "Writing field T" << endl;
-T.write(); 
-Info<< "Writing field p_rgh" << endl;
-p_rgh.write();
+T.write();
+// Info<< "Writing field p_rgh" << endl;
+// p_rgh.write();
 
-
+Info << "End" << endl;
 return 0;
 }
 
