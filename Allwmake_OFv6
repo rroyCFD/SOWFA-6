@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./.bash_profile
+source ./.bash_profile_OFv6
 echo $SOWFA_DIR
 
 SOWFA_SRC=$SOWFA_DIR"/src"
